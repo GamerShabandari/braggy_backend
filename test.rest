@@ -1,0 +1,11 @@
+GET http://localhost:4000/leaderboard
+
+###
+
+POST http://localhost:4000/login
+content-type: application/json
+
+{
+    "username": "musse",
+    "password": "pigg"
+}
