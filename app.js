@@ -9,63 +9,20 @@ require('dotenv').config();
 
 const fs = require('fs');
 const { log } = require('console');
-
-let saltKey = process.env.SECRET_KEY;
+const saltKey = process.env.SECRET_KEY;
 
 var app = express();
-
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// let highscoreArray = [
-//     {
-//         username: "kalle",
-//         highscore: 100,
-//     },
-//     {
-//         username: "musse",
-//         highscore: 200,
-//     },
-//     {
-//         username: "Janne",
-//         highscore: 300,
-//     }
-// ]
-
-
-// let usersArray = [
-//     {
-//         username: "kalle",
-//         password: "anka",
-//         highscore: 0,
-//         id: crypto.randomUUID()
-//     },
-//     {
-//         username: "musse",
-//         password: "pigg",
-//         highscore: 0,
-//         id: crypto.randomUUID()
-//     },
-//     {
-//         username: "Janne",
-//         password: "Långben",
-//         highscore: 0,
-//         id: crypto.randomUUID()
-//     }
-// ]
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 // get leaderboard
 app.get("/leaderboard", (req, res) => {
@@ -75,7 +32,6 @@ app.get("/leaderboard", (req, res) => {
         res.json(highscoreArray)
     })
 })
-
 
 // post highscore to leaderboard
 app.post("/postHighscore/:id", (req, res) => {
@@ -145,73 +101,89 @@ app.post("/postHighscore/:id", (req, res) => {
                             console.log(err);
                         } else {
                             console.log("file written");
+                            let status = {
+                                success: "new highscore saved",
+                                leaderboard: highscoreArray
+                            }
+                            res.send(status)
+                            return
                         }
                     })
-
-                    let status = {
-                        success: "new highscore saved",
-                        leaderboard: highscoreArray
-                    }
-                    res.send(status)
-                    return
                 }
-
             }
-            let status = { error: "no user" }
-            res.send(status)
         })
     })
 })
 
-
 //create user
 app.post("/createUser", (req, res) => {
 
-    for (let i = 0; i < usersArray.length; i++) {
-        const user = usersArray[i];
+    let usersArray = []
 
-        if (user.username === req.body.username) {
-            let status = { error: "username already taken" }
-            res.send(status)
-            return
+    fs.readFile("./users.json", "utf-8", (err, jsonString) => {
+        usersArray = JSON.parse(jsonString);
+        console.log(usersArray);
+
+        for (let i = 0; i < usersArray.length; i++) {
+            const user = usersArray[i];
+
+            if (user.username === req.body.username) {
+                let status = { error: "username already taken" }
+                res.send(status)
+                return
+            }
         }
-    }
 
-    let newUser = {
-        username: req.body.username,
-        password: req.body.password,
-        highscore: 0,
-        id: crypto.randomUUID()
-    }
+        let newUser = {
+            username: req.body.username,
+            password: req.body.password,
+            highscore: 0,
+            id: crypto.randomUUID()
+        }
 
-    usersArray.push(newUser);
-    let status = { success: "user created" }
-    res.send(status)
+        usersArray.push(newUser);
 
+
+        let usersArraySerialized = JSON.stringify(usersArray)
+
+        fs.writeFile("./users.json", usersArraySerialized, err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("file written");
+                let status = { success: "user created" }
+                res.send(status)
+            }
+        })
+    })
 })
 
 //login user
 app.post("/login", (req, res) => {
 
-    for (let i = 0; i < usersArray.length; i++) {
-        const user = usersArray[i];
+    let usersArray = []
 
-        if (user.username === req.body.username && user.password === req.body.password) {
-            let status = { loggedIn: true, id: user.id }
-            res.send(status)
-            return
+    fs.readFile("./users.json", "utf-8", (err, jsonString) => {
+        usersArray = JSON.parse(jsonString);
+        console.log(usersArray);
+
+        for (let i = 0; i < usersArray.length; i++) {
+            const user = usersArray[i];
+
+            if (user.username === req.body.username && user.password === req.body.password) {
+                let status = { loggedIn: true, id: user.id }
+                res.send(status)
+                return
+            }
+
         }
 
-    }
-
-    res.send("fail")
-
+        res.send("fail")
+    })
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 app.listen(process.env.PORT, () => {
 
