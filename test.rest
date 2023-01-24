@@ -6,8 +6,8 @@ POST http://localhost:4000/login
 content-type: application/json
 
 {
-    "username": "gamer",
-    "password": "123"
+    "username": "GamerS",
+    "password": "grandemilan1899"
 }
 
 ###
@@ -15,15 +15,15 @@ POST http://localhost:4000/createUser
 Content-Type: application/json
 
 {
-    "username": "gamer",
-    "password": "123"
+    "username": "GamerS",
+    "password": "grandemilan1899"
 }
 
 ###
-POST http://localhost:4000/postHighscore/033aefba-8e53-44a3-9ec4-dfa89f9b4735
+POST http://localhost:4000/postHighscore/5dd7ea10-9b43-4d52-95a5-490f5792b4bc
 Content-Type: application/json
 
 {
-    "username": "gamer",
-    "highscore": 1200000
+    "username": "GamerS",
+    "highscore": 60000
 }
