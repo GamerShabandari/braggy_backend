@@ -6,7 +6,7 @@ POST http://localhost:4000/login
 content-type: application/json
 
 {
-    "username": "shiva",
+    "username": "gamer",
     "password": "123"
 }
 
@@ -15,15 +15,15 @@ POST http://localhost:4000/createUser
 Content-Type: application/json
 
 {
-    "username": "shiva",
+    "username": "gamer",
     "password": "123"
 }
 
 ###
-POST http://localhost:4000/postHighscore/29bc1603-8a29-4278-8e96-360a5307b62f
+POST http://localhost:4000/postHighscore/033aefba-8e53-44a3-9ec4-dfa89f9b4735
 Content-Type: application/json
 
 {
-    "username": "shiva",
-    "highscore": 12
+    "username": "gamer",
+    "highscore": 1200000
 }
