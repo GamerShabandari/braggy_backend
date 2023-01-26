@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // get leaderboard
 app.get("/leaderboard", (req, res) => {
 
-    fs.readFile("./highscores.json", "utf-8", (err, jsonString) => {
+    fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
         let highscoreArray = JSON.parse(jsonString);
         res.json(highscoreArray)
     })
@@ -40,11 +40,11 @@ app.post("/postHighscore/:id", (req, res) => {
 
     let usersArray = []
 
-    fs.readFile("./highscores.json", "utf-8", (err, jsonString) => {
+    fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
         highscoreArray = JSON.parse(jsonString);
         console.log(highscoreArray);
 
-        fs.readFile("./users.json", "utf-8", (err, jsonString) => {
+        fs.readFile("./userslist.json", "utf-8", (err, jsonString) => {
             usersArray = JSON.parse(jsonString);
             console.log(usersArray);
 
@@ -65,7 +65,7 @@ app.post("/postHighscore/:id", (req, res) => {
 
                             let highscoreArraySerialized = JSON.stringify(highscoreArray)
 
-                            fs.writeFile("./highscores.json", highscoreArraySerialized, err => {
+                            fs.writeFile("./highscoreslist.json", highscoreArraySerialized, err => {
                                 if (err) {
                                     console.log(err);
                                 } else {
@@ -96,7 +96,7 @@ app.post("/postHighscore/:id", (req, res) => {
 
                     let highscoreArraySerialized = JSON.stringify(highscoreArray)
 
-                    fs.writeFile("./highscores.json", highscoreArraySerialized, err => {
+                    fs.writeFile("./highscoreslist.json", highscoreArraySerialized, err => {
                         if (err) {
                             console.log(err);
                         } else {
@@ -120,7 +120,7 @@ app.post("/createUser", (req, res) => {
 
     let usersArray = []
 
-    fs.readFile("./users.json", "utf-8", (err, jsonString) => {
+    fs.readFile("./userslist.json", "utf-8", (err, jsonString) => {
         usersArray = JSON.parse(jsonString);
         console.log(usersArray);
 
@@ -146,7 +146,7 @@ app.post("/createUser", (req, res) => {
 
         let usersArraySerialized = JSON.stringify(usersArray)
 
-        fs.writeFile("./users.json", usersArraySerialized, err => {
+        fs.writeFile("./userslist.json", usersArraySerialized, err => {
             if (err) {
                 console.log(err);
             } else {
@@ -163,7 +163,7 @@ app.post("/login", (req, res) => {
 
     let usersArray = []
 
-    fs.readFile("./users.json", "utf-8", (err, jsonString) => {
+    fs.readFile("./userslist.json", "utf-8", (err, jsonString) => {
         usersArray = JSON.parse(jsonString);
         console.log(usersArray);
 

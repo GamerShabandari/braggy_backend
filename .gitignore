@@ -1,4 +1,4 @@
 /node_modules
 .env
-highscores.json
-users.json
+highscoreslist.json
+userslist.json
