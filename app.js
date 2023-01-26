@@ -30,7 +30,7 @@ const highscorespath = './highscoreslist.json';
 // get leaderboard
 app.get("/leaderboard", (req, res) => {
 
-    if (fs.existsSync(userspath)) {
+    if (fs.existsSync(highscorespath)) {
         console.log('file exists');
 
         fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
@@ -51,7 +51,6 @@ app.get("/leaderboard", (req, res) => {
                     let highscoreArray = JSON.parse(jsonString);
                     res.json(highscoreArray)
                 })
-                return
             }
         })
     }
@@ -59,6 +58,40 @@ app.get("/leaderboard", (req, res) => {
 
 // post highscore to leaderboard
 app.post("/postHighscore/:id", (req, res) => {
+
+    if (fs.existsSync(userspath)) {
+        console.log('file exists');
+    } else {
+        console.log('file not found! - creating it for first time');
+        let array = []
+        let usersArraySerialized = JSON.stringify(array)
+
+        fs.writeFile("./userslist.json", usersArraySerialized, err => {
+            if (err) {
+                console.log(err);
+                return
+            } else {
+                console.log("file written");
+            }
+        })
+    }
+
+    if (fs.existsSync(highscorespath)) {
+        console.log('file exists');
+    } else {
+        console.log('file not found! - creating it for first time');
+        let array = []
+        let highscoreArraySerialized = JSON.stringify(array)
+
+        fs.writeFile("./highscoreslist.json", highscoreArraySerialized, err => {
+            if (err) {
+                console.log(err);
+                return
+            } else {
+                console.log("file written");
+            }
+        })
+    }
 
     let highscoreArray = []
 
@@ -142,6 +175,23 @@ app.post("/postHighscore/:id", (req, res) => {
 //create user
 app.post("/createUser", (req, res) => {
 
+    if (fs.existsSync(userspath)) {
+        console.log('file exists');
+    } else {
+        console.log('file not found! - creating it for first time');
+        let array = []
+        let usersArraySerialized = JSON.stringify(array)
+
+        fs.writeFile("./userslist.json", usersArraySerialized, err => {
+            if (err) {
+                console.log(err);
+                return
+            } else {
+                console.log("file written");
+            }
+        })
+    }
+
     let usersArray = []
 
     fs.readFile("./userslist.json", "utf-8", (err, jsonString) => {
@@ -184,6 +234,23 @@ app.post("/createUser", (req, res) => {
 
 //login user
 app.post("/login", (req, res) => {
+
+    if (fs.existsSync(userspath)) {
+        console.log('file exists');
+    } else {
+        console.log('file not found! - creating it for first time');
+        let array = []
+        let usersArraySerialized = JSON.stringify(array)
+
+        fs.writeFile("./userslist.json", usersArraySerialized, err => {
+            if (err) {
+                console.log(err);
+                return
+            } else {
+                console.log("file written");
+            }
+        })
+    }
 
     let usersArray = []
 

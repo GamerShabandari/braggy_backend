@@ -7,7 +7,7 @@ content-type: application/json
 
 {
     "username": "GamerS",
-    "password": "grandemilan1899"
+    "password": "test123"
 }
 
 ###
@@ -16,14 +16,14 @@ Content-Type: application/json
 
 {
     "username": "GamerS",
-    "password": "grandemilan1899"
+    "password": "test123"
 }
 
 ###
-POST http://localhost:4000/postHighscore/5dd7ea10-9b43-4d52-95a5-490f5792b4bc
+POST http://localhost:4000/postHighscore/
 Content-Type: application/json
 
 {
     "username": "GamerS",
-    "highscore": 60000
+    "highscore": 996000
 }
