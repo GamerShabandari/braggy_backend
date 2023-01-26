@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const userspath = './userslist.json';
+const highscorespath = './highscoreslist.json';
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,10 +30,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 // get leaderboard
 app.get("/leaderboard", (req, res) => {
 
-    fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
-        let highscoreArray = JSON.parse(jsonString);
-        res.json(highscoreArray)
-    })
+    if (fs.existsSync(userspath)) {
+        console.log('file exists');
+
+        fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
+            let highscoreArray = JSON.parse(jsonString);
+            res.json(highscoreArray)
+        })
+    } else {
+        console.log('file not found! - creating it for first time');
+        let array = []
+        let highscoreArraySerialized = JSON.stringify(array)
+
+        fs.writeFile("./highscoreslist.json", highscoreArraySerialized, err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("file written");
+                fs.readFile("./highscoreslist.json", "utf-8", (err, jsonString) => {
+                    let highscoreArray = JSON.parse(jsonString);
+                    res.json(highscoreArray)
+                })
+                return
+            }
+        })
+    }
 })
 
 // post highscore to leaderboard
